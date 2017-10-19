@@ -19,6 +19,13 @@ android {
     }
 }
 
+repositories {
+    mavenCentral() // optional, probably exists in your project already
+    flatDir {
+        dirs '../'
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -27,4 +34,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    //compile fileTree(dir: '../', include: ['com.arubanetworks.meridian:meridian:3.8.0@aar'])
+    compile 'com.arubanetworks.meridian:meridian:3.8.0@aar'
+
+    // 3rd party dependencies used by meridian
+    compile 'com.mcxiaoke.volley:library:1.0.9@aar'
+    compile 'com.squareup:otto:1.3.5'
 }
+
+
+

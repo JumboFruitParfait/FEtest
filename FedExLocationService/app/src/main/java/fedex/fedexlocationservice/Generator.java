@@ -2,6 +2,11 @@ package fedex.fedexlocationservice;
 
 import android.graphics.Color;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Random;
 
 /**
@@ -18,6 +23,26 @@ public class Generator {
             ID = ID + randomInt;
         }
         return ID;
+    }
+
+    public void beaconID(){
+        try {
+            URL url = new URL("https://edit.meridianapps.com /api/locations/5427610480279552/beacons");
+            URLConnection urlc = url.openConnection();
+            urlc.setDoOutput(true);
+            urlc.setAllowUserInteraction(false);
+
+            //get result
+            BufferedReader br = new BufferedReader(new InputStreamReader(urlc
+                    .getInputStream()));
+            String l;
+            while ((l = br.readLine()) != null) {
+                System.out.println(l);
+            }
+            br.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int bgColor(String ID) {
