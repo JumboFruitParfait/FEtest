@@ -3,7 +3,7 @@ package fedex.fedexlocationservice;
 import android.graphics.Color;
 
 import java.util.Random;
-
+// NOT NEEDED, WILL ELIMINATE LATER
 public class Generator {
 
     public String generateID() {

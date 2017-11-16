@@ -1,40 +1,30 @@
 package fedex.fedexlocationservice;
 
 import android.app.Dialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.arubanetworks.meridian.Meridian;
-
-import java.util.ArrayList;
+import com.arubanetworks.meridian.campaigns.CampaignBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity {
-
-    //public ArrayList<BluetoothDevice> mBTDevices = new ArrayList<>();
-    public String address= "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Configure Meridian
         Meridian.configure(this);
-        //mBTDevices = new ArrayList<>();
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        // It seems bluetooth does not need to be active
+        /*BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!mBluetoothAdapter.isEnabled()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Bluetooth Not Active");
@@ -48,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
             Dialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
-        }
-        mBluetoothAdapter.startDiscovery();
+        }*/
+        // Activate location services
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if(!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+        if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Location Services Not Active");
             builder.setMessage("Please enable Location Services");
@@ -65,34 +55,27 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
+        final XMLparser parser = new XMLparser();
+        CampaignBroadcastReceiver mBroadcastReceiver = new CampaignBroadcastReceiver() {
+            @Override
+            protected void onReceive(Context context, Intent intent, String s, String s1) {
+                final String campaignID = getCampaignId(intent);
+                final String ID = parser.getLocationID(campaignID);
+                TextView textView = (TextView) findViewById(R.id.textView);
+                textView.setText(ID);
+                //ConstraintLayout bg = (ConstraintLayout)findViewById(R.id.bg);
+
+                // Vibrate
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(500);
+            }
+        };
     }
 
-    /*Handler h = new Handler();
-    int delay = 15000; //15 seconds
-    Runnable runnable;
-    @Override
-    protected void onResume() {
-        //start handler as activity become visible
-        h.postDelayed(new Runnable() {
-            public void run() {
-                IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-                registerReceiver(mBroadcastReceiver, discoverDevicesIntent);
-                showID();
-                runnable=this;
-                h.postDelayed(runnable, delay);
-            }
-        }, delay);
-        super.onResume();
-    }*/
-
-    /* Probably don't need a pause, but just in case
-    @Override
-    protected void onPause() {
-        h.removeCallbacks(runnable); //stop handler when activity not visible
-        super.onPause();
-    }*/
-
-    /** Called when the user taps the button */
+    /**
+     * Called when the user taps the button
+     * NOT NEEDED, WILL ELIMINATE LATER
+     */
     public void generateID() {
         Generator generator = new Generator();
         // Create 20byte sequence
@@ -101,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         // Set the view
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setText(ID);
-        ConstraintLayout bg = (ConstraintLayout)findViewById(R.id.bg);
+        ConstraintLayout bg = (ConstraintLayout) findViewById(R.id.bg);
 
         // Vibrate
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -114,34 +97,5 @@ public class MainActivity extends AppCompatActivity {
         bg.setBackgroundColor(switchColor);
         textView.setTextColor(switchTextColor);
     }
-
-    /*private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (action.equals(BluetoothDevice.ACTION_FOUND)){
-                BluetoothDevice device = intent.getParcelableExtra (BluetoothDevice.EXTRA_DEVICE);
-                address = device.getAddress();
-                //mBTDevices.add(device);
-            }
-        }
-    };*/
-
-    /** Show location ID automatically **/
-    public void showID() {
-        //bluetoothSetup btSetup = new bluetoothSetup();
-        XMLparser parser = new XMLparser();
-
-        String campaignID = address;
-        String ID = parser.getLocationID(campaignID);
-
-        // Set the view
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(ID);
-        //ConstraintLayout bg = (ConstraintLayout)findViewById(R.id.bg);
-
-        // Vibrate
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(500);
-    }
 }
+
