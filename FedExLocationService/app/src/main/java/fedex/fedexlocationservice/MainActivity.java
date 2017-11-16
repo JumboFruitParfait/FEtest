@@ -1,6 +1,7 @@
 package fedex.fedexlocationservice;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         // Configure Meridian
         Meridian.configure(this);
         // It seems bluetooth does not need to be active
-        /*BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!mBluetoothAdapter.isEnabled()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Bluetooth Not Active");
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             Dialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
-        }*/
+        }
         // Activate location services
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {

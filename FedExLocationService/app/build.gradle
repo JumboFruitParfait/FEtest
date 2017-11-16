@@ -35,7 +35,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 
-    //compile fileTree(dir: '../', include: ['com.arubanetworks.meridian:meridian:3.8.0@aar'])
+    //compile fileTree(dir: './', include: ['com.arubanetworks.meridian:meridian:3.8.0@aar'])
     compile 'com.arubanetworks.meridian:meridian:3.8.0@aar'
 
     // 3rd party dependencies used by meridian
