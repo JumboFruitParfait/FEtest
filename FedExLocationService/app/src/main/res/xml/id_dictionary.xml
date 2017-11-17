@@ -6,4 +6,7 @@
     <campaign campaignID="2001">
         <locationID>test_success_2</locationID>
     </campaign>
+    <campaign campaignID="3001">
+        <locationID>test_success_3</locationID>
+    </campaign>
 </beacon>
