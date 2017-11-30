@@ -1,20 +1,27 @@
 package fedex.fedexlocationservice;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 
-import java.io.File;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+public class LocationID {
 
-public class XMLparser {
+    public String getLocationID(String campaignID) {
+        switch(campaignID) {
+            case "5634472569470976": return "test_success_1";
+            case "1001" : return "test_success_2";
+            case "2002" : return "test_success_3";
+            default : return "Location not found!";
+        }
+    }
 
-    public String getLocationID(String campaignID){
+    // Use this instead of the above if you want to read from an XML file in node format
+    // <campaign campaignID="myID">
+    //     <locationID> locID </locationID>
+    // </campaign>
+    // This requires file to be loaded onto device
+
+    /*public String getLocationID(String campaignID) {
         try {
-            File xmlFile = new File("/app/src/main/res/id_dictionary.xml");
+            File xmlFile = new File("PATH_TO_FILE");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
@@ -35,8 +42,7 @@ public class XMLparser {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return "An error occurred";
         }
-        return "Location not found!";
-    }
+    }*/
 }

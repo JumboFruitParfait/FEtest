@@ -62,8 +62,12 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
-        final XMLparser parser = new XMLparser();
-        /*CampaignBroadcastReceiver mBroadcastReceiver = new CampaignBroadcastReceiver() {
+        CampaignsService monitor = new CampaignsService();
+        EditorKey appKey = new EditorKey("5427610480279552");
+        monitor.startMonitoring(this, appKey);
+        CampaignReceiver recv = new CampaignReceiver();
+        /*final LocationID locID = new LocationID();
+        CampaignBroadcastReceiver mBroadcastReceiver = new CampaignBroadcastReceiver() {
             @Override
             protected void onReceive(Context context, Intent intent, String title, String message) {
                 Intent notificationIntent = new Intent(context, MainActivity.class);
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
                 final String campaignID = getCampaignId(notificationIntent);
-                final String ID = parser.getLocationID(campaignID);
+                final String ID = locID.getLocationID(campaignID);
                 TextView textView = (TextView) findViewById(R.id.textView);
                 textView.setText(ID);
                 //ConstraintLayout bg = (ConstraintLayout)findViewById(R.id.bg);
@@ -81,17 +85,6 @@ public class MainActivity extends AppCompatActivity {
                 vibrator.vibrate(500);
             }
         };*/
-        CampaignReceiver cReceiver = new CampaignReceiver();
-        CampaignsService monitor = new CampaignsService();
-        EditorKey appKey = new EditorKey("5427610480279552");
-        monitor.startMonitoring(this, appKey);
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        String campaignID = cReceiver.getCampaignId(notificationIntent);
-        String ID = parser.getLocationID(campaignID);
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(campaignID);
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(500);
     }
 
     /**
