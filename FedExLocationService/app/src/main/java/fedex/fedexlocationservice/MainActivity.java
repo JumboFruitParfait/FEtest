@@ -1,25 +1,21 @@
 package fedex.fedexlocationservice;
 
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.arubanetworks.meridian.Meridian;
-import com.arubanetworks.meridian.campaigns.CampaignBroadcastReceiver;
 import com.arubanetworks.meridian.campaigns.CampaignsService;
 import com.arubanetworks.meridian.editor.EditorKey;
 
@@ -30,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Configure Meridian
         Meridian.configure(this);
-        // It seems bluetooth does not need to be active
+        // Activate Bluetooth
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!mBluetoothAdapter.isEnabled()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -62,29 +58,13 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
-        CampaignsService monitor = new CampaignsService();
-        EditorKey appKey = new EditorKey("5427610480279552");
-        monitor.startMonitoring(this, appKey);
+        //CampaignsService monitor = new CampaignsService();
+        EditorKey appKey = EditorKey.forApp("5427610480279552");
+        //monitor.startMonitoring(this, appKey);
+        CampaignsService.startMonitoring(MainActivity.this, appKey);
         CampaignReceiver recv = new CampaignReceiver();
-        /*final LocationID locID = new LocationID();
-        CampaignBroadcastReceiver mBroadcastReceiver = new CampaignBroadcastReceiver() {
-            @Override
-            protected void onReceive(Context context, Intent intent, String title, String message) {
-                Intent notificationIntent = new Intent(context, MainActivity.class);
-                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-
-                final String campaignID = getCampaignId(notificationIntent);
-                final String ID = locID.getLocationID(campaignID);
-                TextView textView = (TextView) findViewById(R.id.textView);
-                textView.setText(ID);
-                //ConstraintLayout bg = (ConstraintLayout)findViewById(R.id.bg);
-
-                // Vibrate
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(500);
-            }
-        };*/
+        //IntentFilter intentFilter = new IntentFilter();
+        //registerReceiver(recv, intentFilter);
     }
 
     /**

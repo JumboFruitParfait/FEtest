@@ -21,13 +21,12 @@ public class CampaignReceiver extends CampaignBroadcastReceiver {
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
         LocationID locID =  new LocationID();
-        String campaignID = this.getCampaignId(notificationIntent);
+        String campaignID = this.getCampaignId(intent);
         String ID = locID.getLocationID(campaignID);
         TextView textView = (TextView) ((Activity)context).findViewById(R.id.textView);
         textView.setText(ID);
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(500);
-
         /*NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setContentTitle(title);
         builder.setContentText(message);
