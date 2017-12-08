@@ -2,6 +2,7 @@ package fedex.fedexlocationservice;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,9 @@ import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.arubanetworks.meridian.Meridian;
@@ -58,13 +62,21 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
-        //CampaignsService monitor = new CampaignsService();
         EditorKey appKey = EditorKey.forApp("5427610480279552");
-        //monitor.startMonitoring(this, appKey);
-        CampaignsService.startMonitoring(MainActivity.this, appKey);
-        CampaignReceiver recv = new CampaignReceiver();
-        //IntentFilter intentFilter = new IntentFilter();
-        //registerReceiver(recv, intentFilter);
+        if(!Meridian.getShared().campaignsEnabled()) {
+            CampaignsService.startMonitoring(MainActivity.this, appKey);
+        }
+        /*CampaignReceiver recv = new Ca
+        final String receive = "com.arubanetworks.meridian.CAMPAIGNS_BROADCAST";
+        IntentFilter intentFilter = new IntentFilter(receive);
+        registerReceiver(recv, intentFilter);*/
+        final Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent inte = new Intent("com.arubanetworks.meridiansamples.CampaignReceiver");
+                sendBroadcast(inte);
+            }
+        });
     }
 
     /**

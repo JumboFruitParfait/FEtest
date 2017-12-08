@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.arubanetworks.meridian.campaigns.CampaignBroadcastReceiver;
@@ -16,10 +17,11 @@ public class CampaignReceiver extends CampaignBroadcastReceiver {
 
     @Override
     protected void onReceive(Context context, Intent intent, String title, String message) {
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        /*Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);*/
 
+        Log.d("Tag","Received");
         LocationID locID =  new LocationID();
         String campaignID = this.getCampaignId(intent);
         String ID = locID.getLocationID(campaignID);

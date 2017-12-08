@@ -28,4 +28,12 @@
         app:layout_constraintGuide_begin="-145dp"
         android:orientation="horizontal" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="button"
+        tools:layout_editor_absoluteY="240dp"
+        tools:layout_editor_absoluteX="142dp" />
+
 </android.support.constraint.ConstraintLayout>

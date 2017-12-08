@@ -7,8 +7,8 @@ public class LocationID {
     public String getLocationID(String campaignID) {
         switch(campaignID) {
             case "5634472569470976": return "test_success_1";
-            case "1001" : return "test_success_2";
-            case "2002" : return "test_success_3";
+            case "5654313976201216" : return "test_success_2";
+            case "5682617542246400" : return "test_success_3";
             default : return "Location not found!";
         }
     }
